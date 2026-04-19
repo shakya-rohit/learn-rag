@@ -1,4 +1,6 @@
 from fastapi import FastAPI, UploadFile, File
+from fastapi.middleware.cors import CORSMiddleware
+
 from pydantic import BaseModel
 from rag_faiss import initialize, ask_rag, add_pdf
 from hybrid_rag import hybrid_answer
@@ -25,6 +27,15 @@ print("✅ RAG ready!\n")
 # -------------------------------
 class QueryRequest(BaseModel):
     question: str
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:4200"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 # -------------------------------
